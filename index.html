@@ -1,125 +1,255 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-
-
-    <title>Computer class registration form</title>
-    <link re="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f6f2">
+    <meta name="description" content="Apply for an ICT course. Share your details, education history, and course preferences.">
+    <title>ICT Class Application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="site-header">
+        <a class="brand" href="#top" aria-label="ICT Academy application home">
+            <span class="brand-mark" aria-hidden="true">i.</span>
+            <span>ICT <strong>ACADEMY</strong></span>
+        </a>
+        <span class="header-note">ADMISSIONS <span aria-hidden="true">/</span> ICT</span>
+    </header>
 
-    <h1>Computer class registration form</h1>
+    <main id="top" class="page-shell">
+        <div class="intro">
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> NEW STUDENT APPLICATION</p>
+            <h1>Make your next move <span>digital.</span></h1>
+            <p class="intro-copy">Apply to an ICT programme. Complete the required fields and our admissions team can follow up with you.</p>
+            <p class="required-note"><span aria-hidden="true">*</span> Required fields</p>
+        </div>
 
-    <p>Please fill in the form below to register for computer classes</p>
-    <form>
+        <form class="application-form" action="/applications" method="post" enctype="multipart/form-data">
+            <fieldset class="form-section">
+                <legend><span class="section-number">01</span><span>About you</span></legend>
+                <p class="section-intro">Use the name shown on your official documents.</p>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="first-name">First name <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="first-name" name="first_name" type="text" autocomplete="given-name" required>
+                    </div>
+                    <div class="field">
+                        <label for="last-name">Last name <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="last-name" name="last_name" type="text" autocomplete="family-name" required>
+                    </div>
+                    <div class="field">
+                        <label for="date-of-birth">Date of birth <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="date-of-birth" name="date_of_birth" type="date" autocomplete="bday" required>
+                    </div>
+                    <div class="field">
+                        <label for="gender">Gender <span class="optional-note">Optional</span></label>
+                        <select id="gender" name="gender">
+                            <option value="">Select an option</option>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="non-binary">Non-binary</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                            <option value="self-describe">I use another term</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="nationality">Nationality <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="nationality" name="nationality" type="text" autocomplete="country-name" required>
+                    </div>
+                    <div class="field">
+                        <label for="identification">ID or passport number <span class="optional-note">Optional</span></label>
+                        <input id="identification" name="identification_number" type="text" autocomplete="off">
+                    </div>
+                </div>
+            </fieldset>
 
-        <h2>Personal information</h2>
+            <fieldset class="form-section">
+                <legend><span class="section-number">02</span><span>Contact details</span></legend>
+                <p class="section-intro">We will use these details about your application only.</p>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="email">Email address <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone number <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Include country code" required>
+                    </div>
+                    <div class="field field-wide">
+                        <label for="street-address">Street address <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="street-address" name="street_address" type="text" autocomplete="street-address" required>
+                    </div>
+                    <div class="field">
+                        <label for="city">City or town <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="city" name="city" type="text" autocomplete="address-level2" required>
+                    </div>
+                    <div class="field">
+                        <label for="country">Country <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="country" name="country" type="text" autocomplete="country-name" required>
+                    </div>
+                </div>
+                <div class="subsection">
+                    <h2>Emergency contact</h2>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="emergency-name">Contact's full name <span class="required-mark" aria-hidden="true">*</span></label>
+                            <input id="emergency-name" name="emergency_contact_name" type="text" autocomplete="off" required>
+                        </div>
+                        <div class="field">
+                            <label for="emergency-phone">Contact's phone number <span class="required-mark" aria-hidden="true">*</span></label>
+                            <input id="emergency-phone" name="emergency_contact_phone" type="tel" autocomplete="off" required>
+                        </div>
+                        <div class="field">
+                            <label for="emergency-relationship">Relationship to you <span class="required-mark" aria-hidden="true">*</span></label>
+                            <input id="emergency-relationship" name="emergency_contact_relationship" type="text" required>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
 
-        <label> Full Name:</label>
-        <input type="text" name="full name " placeholder="Enter your full name">
-        <br><br>
+            <fieldset class="form-section">
+                <legend><span class="section-number">03</span><span>Your programme</span></legend>
+                <p class="section-intro">Tell us what you would like to study and when.</p>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="programme">Programme level <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="programme" name="programme" required>
+                            <option value="">Choose a programme</option>
+                            <option value="certificate">Certificate in ICT</option>
+                            <option value="diploma">Diploma in ICT</option>
+                            <option value="advanced-diploma">Advanced Diploma in ICT</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="area-of-interest">ICT area of interest <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="area-of-interest" name="area_of_interest" required>
+                            <option value="">Choose an area</option>
+                            <option value="software-development">Software development</option>
+                            <option value="networking">Networking and systems</option>
+                            <option value="cybersecurity">Cybersecurity</option>
+                            <option value="data-analytics">Data and analytics</option>
+                            <option value="it-support">IT support</option>
+                            <option value="general">General ICT</option>
+                            <option value="undecided">Not sure yet</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="study-mode">Study mode <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="study-mode" name="study_mode" required>
+                            <option value="">Choose a study mode</option>
+                            <option value="on-campus">On campus</option>
+                            <option value="online">Online</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="intake">Preferred intake <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="intake" name="preferred_intake" type="month" required>
+                    </div>
+                    <div class="field">
+                        <label for="schedule">Preferred class time <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="schedule" name="preferred_schedule" required>
+                            <option value="">Choose a class time</option>
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                            <option value="evening">Evening</option>
+                            <option value="weekend">Weekend</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="education">Highest education completed <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="education" name="highest_education" required>
+                            <option value="">Choose a level</option>
+                            <option value="secondary">Secondary school</option>
+                            <option value="certificate">Certificate</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="bachelors">Bachelor's degree</option>
+                            <option value="postgraduate">Postgraduate degree</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="school">Most recent school or institution <span class="optional-note">Optional</span></label>
+                        <input id="school" name="last_institution" type="text" autocomplete="organization">
+                    </div>
+                </div>
+            </fieldset>
 
-        <label>Date of birth:</label>
+            <fieldset class="form-section">
+                <legend><span class="section-number">04</span><span>Experience &amp; goals</span></legend>
+                <p class="section-intro">There is no expectation of previous ICT experience.</p>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="experience-level">Your ICT experience <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="experience-level" name="experience_level" required>
+                            <option value="">Choose an option</option>
+                            <option value="none">New to ICT</option>
+                            <option value="basic">Basic skills</option>
+                            <option value="some">Some study or work experience</option>
+                            <option value="experienced">Experienced</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="device">Device available for study <span class="required-mark" aria-hidden="true">*</span></label>
+                        <select id="device" name="study_device" required>
+                            <option value="">Choose a device</option>
+                            <option value="laptop">Laptop or desktop</option>
+                            <option value="tablet">Tablet</option>
+                            <option value="shared">Shared device</option>
+                            <option value="none">I need access to a device</option>
+                        </select>
+                    </div>
+                    <div class="field field-wide">
+                        <label for="motivation">Why do you want to study ICT? <span class="required-mark" aria-hidden="true">*</span></label>
+                        <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us about your interests and what you hope to do after the course." required></textarea>
+                    </div>
+                    <div class="field field-wide">
+                        <label for="support-needs">Learning support or access needs <span class="optional-note">Optional</span></label>
+                        <textarea id="support-needs" name="support_needs" rows="3" placeholder="Share anything that would help us support your learning."></textarea>
+                    </div>
+                </div>
+            </fieldset>
 
-        <input type="date" name="dob">
+            <fieldset class="form-section">
+                <legend><span class="section-number">05</span><span>Supporting documents</span></legend>
+                <p class="section-intro">Attach certificates or other documents relevant to your application.</p>
+                <div class="field">
+                    <label for="documents">Upload documents <span class="optional-note">Optional</span></label>
+                    <input class="file-input" id="documents" name="documents" type="file" accept=".pdf,.jpg,.jpeg,.png" multiple aria-describedby="documents-help">
+                    <small id="documents-help" class="field-help">PDF, JPG or PNG. You can select more than one file.</small>
+                </div>
+            </fieldset>
 
-        <br><br>
+            <fieldset class="form-section declaration-section">
+                <legend><span class="section-number">06</span><span>Review &amp; declaration</span></legend>
+                <p class="declaration-copy">By submitting this application, I confirm that the information provided is accurate and consent to being contacted about my application.</p>
+                <label class="check-row" for="declaration">
+                    <input id="declaration" name="declaration" type="checkbox" value="confirmed" required>
+                    <span>I have read and agree to this declaration. <span class="required-mark" aria-hidden="true">*</span></span>
+                </label>
+                <div class="field-grid signature-fields">
+                    <div class="field">
+                        <label for="signature">Applicant's full name <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="signature" name="applicant_signature" type="text" autocomplete="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="submitted-date">Date <span class="required-mark" aria-hidden="true">*</span></label>
+                        <input id="submitted-date" name="application_date" type="date" required>
+                    </div>
+                </div>
+            </fieldset>
 
-        <label>Gender:</label>
-
-        <input type="radio" id="male" name="Gender" value="male">
-        <label for="male">male</label>
-
-
-
-        <input type="radio" id="female" name="Gender" value="female">
-        <label for="female">male</label>
-
-         <label for="Natioanality" >Nationality:</label>
-
-        <input type="text" id="Nationality" name="Nationality" >
-        <br><br>
-
-        <h2>Contact information</h2>
-        <label for="phone">phone number:</label>
-
-        <input type="tel" id="Phone" name="Phone" placeholder="Enter Phone number">
-
-        <br><br>
-
-        <label for="Email">Email Address:</label>
-
-        <input type="email" id="email"  name="email" placeholder="Enter email address" >
-        <br><br>    
-        
-        <label for="address">Address:</label>
-        <br>
-
-        <textarea id="address" name="address" rows="4" cols="40"></textarea>
-        <br><br>
-
-        <h2>Computer class information</h2>
-        <label for="level">choose ICT level:</label>
-
-        <select id="level" name="level">
-            <option value="">--select level --</option>
-
-            <option value="certificate">Certificate</option>
-
-            <option value="Diploma">Diploma</option>
-
-            <option value="Advance Diploma">Advance Diploma</option>
-
-
-        </select>
-
-        <br><br>
-        <label>preferred class time:</label>
-        <input type="radio" id="Morning" name="time" value="Morning">
-
-        <label for="Morning">Morning</label>
-
-        <input type="radio" id="Afternoon" name="time" value="Afternoon">
-        <label for="Afternoon">Afternoon</label>
-
-        <input type="radio" id="Evening" name="time" value="Evening">
-        <label for="Evening">Afternoon</label>
-
-        <br><br>
-        <label for="Experience">Previous ICT Experience:</label>
-        <br>
-
-        <textarea id="Experience" name="Experience" rows="5" cols="50" placeholder="Describe your previous ICT Experience"></textarea>
-
-        <br><br>
-
-        <h2>Additional information</h2>
-        <label for="reason">Why you want to study ICT?</label>
-        <br>
-        <textarea id="reason" name="reason" rows="5" cols="50" placeholder="Enter your reason"></textarea>
-        <br><br>
-
-        <input type="checkbox" id="terms" name="terms">
-
-        <label for="terms">I agree to the ICT class registration terms and conditions</label>
-
-        <br><br>
-
-        <input type="submit" value="Register">
-
-        <input type="reset" value="clear form">
-
-
-
-
-
-        
-    </form>
+            <div class="form-actions">
+                <p>Fields marked <span class="required-mark" aria-hidden="true">*</span> are required.</p>
+                <button class="submit-button" type="submit">Submit application <span aria-hidden="true">&rarr;</span></button>
+            </div>
+        </form>
+        <footer class="page-footer">ICT ACADEMY <span>Admissions office <a href="/admin">Staff records</a></span></footer>
+    </main>
 </body>
-
-
-
-
-
-
+</html>
 </html>

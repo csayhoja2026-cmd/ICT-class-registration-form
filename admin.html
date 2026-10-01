@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f6f2">
+    <title>Application records | ICT Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="ICT Academy application form">
+            <span class="brand-mark" aria-hidden="true">i.</span>
+            <span>ICT <strong>ACADEMY</strong></span>
+        </a>
+        <a class="admin-back-link" href="/">Application form <span aria-hidden="true">&rarr;</span></a>
+    </header>
+    <main class="admin-shell">
+        <div class="admin-heading">
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> ADMISSIONS OFFICE</p>
+            <h1>Application <span>records.</span></h1>
+            <p class="intro-copy">Submitted applications are stored on this computer. Records contain personal information; keep this page private.</p>
+        </div>
+
+        <form class="admin-login" id="login-form">
+            <label for="admin-password">Staff password</label>
+            <div class="admin-login-row">
+                <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+                <button class="submit-button" type="submit">View applications <span aria-hidden="true">&rarr;</span></button>
+            </div>
+            <p class="admin-status" id="status" role="status" aria-live="polite">Enter the password printed by the server when it starts.</p>
+        </form>
+
+        <section class="records-section" id="records-section" aria-labelledby="records-heading" hidden>
+            <div class="records-toolbar">
+                <div>
+                    <h2 id="records-heading">Submitted applications</h2>
+                    <p class="records-count" id="records-count"></p>
+                </div>
+                <div class="records-actions">
+                    <label class="visually-hidden" for="record-search">Search applications</label>
+                    <input id="record-search" type="search" placeholder="Search name, email or programme">
+                    <button class="secondary-button" id="refresh-button" type="button">Refresh</button>
+                    <button class="secondary-button" id="logout-button" type="button">Lock</button>
+                </div>
+            </div>
+            <div class="record-list" id="record-list"></div>
+        </section>
+    </main>
+
+    <script>
+        const loginForm = document.querySelector("#login-form");
+        const passwordInput = document.querySelector("#admin-password");
+        const statusMessage = document.querySelector("#status");
+        const recordsSection = document.querySelector("#records-section");
+        const recordsList = document.querySelector("#record-list");
+        const recordsCount = document.querySelector("#records-count");
+        const searchInput = document.querySelector("#record-search");
+        let staffPassword = "";
+        let applications = [];
+
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            staffPassword = passwordInput.value;
+            statusMessage.textContent = "Checking access...";
+            await loadApplications();
+        });
+
+        async function loadApplications() {
+            try {
+                const response = await fetch("/api/applications", {
+                    headers: { Authorization: `Bearer ${staffPassword}` },
+                    cache: "no-store"
+                });
+                if (response.status === 401) {
+                    staffPassword = "";
+                    statusMessage.textContent = "That password was not accepted.";
+                    passwordInput.focus();
+                    return;
+                }
+                if (!response.ok) throw new Error("Could not load application records.");
+                applications = await response.json();
+                passwordInput.value = "";
+                loginForm.hidden = true;
+                recordsSection.hidden = false;
+                renderApplications();
+            } catch (error) {
+                staffPassword = "";
+                statusMessage.textContent = error.message;
+            }
+        }
+
+        function renderApplications() {
+            const search = searchInput.value.trim().toLowerCase();
+            const filtered = applications.filter((application) => {
+                const fields = application.fields;
+                return `${fields.first_name} ${fields.last_name} ${fields.email} ${fields.programme}`
+                    .toLowerCase().includes(search);
+            });
+            recordsCount.textContent = `${filtered.length} of ${applications.length} application${applications.length === 1 ? "" : "s"}`;
+            recordsList.replaceChildren();
+
+            if (filtered.length === 0) {
+                const emptyMessage = document.createElement("p");
+                emptyMessage.className = "empty-records";
+                emptyMessage.textContent = applications.length ? "No applications match that search." : "No applications have been submitted yet.";
+                recordsList.append(emptyMessage);
+                return;
+            }
+
+            for (const application of filtered) {
+                const card = document.createElement("article");
+                card.className = "record-entry";
+
+                const top = document.createElement("div");
+                top.className = "record-topline";
+                const name = document.createElement("h3");
+                name.textContent = `${application.fields.first_name} ${application.fields.last_name}`;
+                const date = document.createElement("time");
+                date.dateTime = application.submitted_at;
+                date.textContent = new Date(application.submitted_at).toLocaleString();
+                top.append(name, date);
+
+                const contact = document.createElement("p");
+                contact.className = "record-contact";
+                contact.textContent = `${application.fields.email}  |  ${application.fields.programme.replaceAll("-", " ")}`;
+
+                const disclosure = document.createElement("details");
+                const summary = document.createElement("summary");
+                summary.textContent = "View full application";
+                const definitionList = document.createElement("dl");
+                definitionList.className = "record-details";
+                for (const [key, value] of Object.entries(application.fields)) {
+                    const term = document.createElement("dt");
+                    term.textContent = key.replaceAll("_", " ");
+                    const description = document.createElement("dd");
+                    description.textContent = value;
+                    definitionList.append(term, description);
+                }
+                disclosure.append(summary, definitionList);
+
+                if (application.files.length) {
+                    const fileList = document.createElement("ul");
+                    fileList.className = "record-files";
+                    for (const file of application.files) {
+                        const item = document.createElement("li");
+                        const download = document.createElement("button");
+                        download.className = "file-download";
+                        download.type = "button";
+                        download.dataset.storedName = file.stored_name;
+                        download.textContent = `${file.original_name} (${Math.ceil(file.size / 1024)} KB)`;
+                        item.append(download);
+                        fileList.append(item);
+                    }
+                    disclosure.append(fileList);
+                }
+
+                card.append(top, contact, disclosure);
+                recordsList.append(card);
+            }
+        }
+
+        searchInput.addEventListener("input", renderApplications);
+        document.querySelector("#refresh-button").addEventListener("click", loadApplications);
+        document.querySelector("#logout-button").addEventListener("click", () => {
+            staffPassword = "";
+            applications = [];
+            recordsList.replaceChildren();
+            recordsSection.hidden = true;
+            loginForm.hidden = false;
+            statusMessage.textContent = "Enter the password printed by the server when it starts.";
+            passwordInput.focus();
+        });
+        recordsList.addEventListener("click", async (event) => {
+            const button = event.target.closest(".file-download");
+            if (!button) return;
+            button.disabled = true;
+            try {
+                const response = await fetch(`/api/files/${encodeURIComponent(button.dataset.storedName)}`, {
+                    headers: { Authorization: `Bearer ${staffPassword}` },
+                    cache: "no-store"
+                });
+                if (!response.ok) throw new Error("Could not download this document.");
+                const fileUrl = URL.createObjectURL(await response.blob());
+                const link = document.createElement("a");
+                link.href = fileUrl;
+                link.download = button.textContent.replace(/ \(\d+ KB\)$/, "");
+                link.click();
+                URL.revokeObjectURL(fileUrl);
+            } catch (error) {
+                statusMessage.textContent = error.message;
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
